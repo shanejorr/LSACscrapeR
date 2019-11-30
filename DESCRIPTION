@@ -1,15 +1,22 @@
 Package: LSACscrapeR
-Title: What the Package Does (One Line, Title Case)
+Title: Scrapes LSAC Summar Reports and Places them into Data Frames
 Version: 0.0.0.9000
 Authors@R: 
-    person(given = "First",
-           family = "Last",
-           role = c("aut", "cre"),
-           email = "first.last@example.com",
-           comment = c(ORCID = "YOUR-ORCID-ID"))
-Description: What the package does (one paragraph).
+    person(given = "Shane",
+           family = "Orr",
+           email = "shane.j.orr@examplgmail.com")
+Description: R package that scrapes single page LSAC CAS PDF files and inserts the results into a list contain multiple R data frames.
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
 URL: https://github.com/shanejorr/LSACscrapeR
 BugReports: https://github.com/shanejorr/LSACscrapeR/issues
+Imports: 
+    dplyr,
+    tabulizer,
+    stringr,
+    lubridate,
+    tidyr,
+    magrittr,
+    tibble
+RoxygenNote: 7.0.1
