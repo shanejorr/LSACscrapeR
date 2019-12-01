@@ -114,9 +114,9 @@ convert_df <- function(text_extract) {
 
   #remove rows that just say 'see foreign eval'
   grades <- tibble::as_tibble(t(text_extract[[11]])) %>%
-    dplyr::filter_all(all_vars(. != "FOREIGN"))
+    dplyr::filter_all(dplyr::all_vars(. != "FOREIGN"))
 
-  trans <- dplyr::bind_cols(as_tibble(t(text_extract[[10]])), grades)
+  trans <- dplyr::bind_cols(tibble_as_tibble(t(text_extract[[10]])), grades)
 
   #only create the data frame from the transcript section if there is transcript information
   #if there is only 1 row in trans there is no transcript information
@@ -178,15 +178,15 @@ convert_df <- function(text_extract) {
 varFilter <- function(df, columns) {
 
   df %>%
-    dplyr::filter_at(vars(columns),
+    dplyr::filter_at(dplyr::vars(columns),
                      # these strings represent rows without values
-                     any_vars(. != "" &
-                                . != "INSF" &
-                                . != "SEE" &
-                                . != "TRANS" &
-                                . != "UNACK" &
-                                . != "FOREIGN" &
-                                . != "EVAL"))
+                     dplyr::any_vars(. != "" &
+                                    . != "INSF" &
+                                    . != "SEE" &
+                                    . != "TRANS" &
+                                    . != "UNACK" &
+                                    . != "FOREIGN" &
+                                    . != "EVAL"))
 }
 
 #' Extract text areas and place in individual dataframes
@@ -196,10 +196,11 @@ varFilter <- function(df, columns) {
 #' in a separate data frame.
 #'
 #' @param pdf_file String.  Full path to the PDF file to be scraped.
+#' @param start_page Integer. The page number of the first PDF page that needs to be scraped.
 #'
 #' @return A nested list with each student as the highest hierarchy in the list, and
 #'      each student is another list with a different data frame for each table.
-text_to_list <- function(pdf_file) {
+text_to_list <- function(pdf_file, start_page) {
 
   ###########################################################################
   # each student will have a seperate dataframe for each individual table
@@ -207,8 +208,17 @@ text_to_list <- function(pdf_file) {
   # one level is the student and the next level is a dataframe of the specific table
   ############################################################################
 
+  # return an error if start page is not an integer
+  if (!is.integer(start_page)) {
+    stop("start_page msut be an integer")
+  }
+
   # get the number of pages in the pdf file
   num_pages <- tabulizer::get_n_pages(pdf_file)
+
+  # make a vector of the pages to scrape,
+  # by starting at the first page to scrape and ending at the final page
+  scrape_pages <- seq(start_page, num_pages)
 
   #initialize dataframe to hold lsat number and report creation date
   #this will be used to see if an applicant has a later report already extracted
@@ -218,7 +228,7 @@ text_to_list <- function(pdf_file) {
   #initialize nested list that will store lists of data frames for each applicant
   applicants <- list()
 
-  for (pg in seq_len(num_pages)) {
+  for (pg in scrape_pages) {
 
     extracted <- extracted_areas(pdf_file, pg)
 

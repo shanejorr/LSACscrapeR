@@ -4,10 +4,12 @@
 \alias{scrape_lsac_report}
 \title{Scrape LSAC PDF reports and place into data frames}
 \usage{
-scrape_lsac_report(pdf_file)
+scrape_lsac_report(pdf_file, start_page)
 }
 \arguments{
 \item{pdf_file}{String.  Full path to the PDF file to be scraped.}
+
+\item{start_page}{Integer. The page number of the first PDF page that needs to be scraped.}
 }
 \value{
 A list, with each element in the list containing a data frame of the scraped results.

@@ -4,10 +4,12 @@
 \alias{text_to_list}
 \title{Extract text areas and place in individual dataframes}
 \usage{
-text_to_list(pdf_file)
+text_to_list(pdf_file, start_page)
 }
 \arguments{
 \item{pdf_file}{String.  Full path to the PDF file to be scraped.}
+
+\item{start_page}{Integer. The page number of the first PDF page that needs to be scraped.}
 }
 \value{
 A nested list with each student as the highest hierarchy in the list, and

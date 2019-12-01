@@ -5,13 +5,14 @@
 #' are returned as a list.
 #'
 #' @param pdf_file String.  Full path to the PDF file to be scraped.
+#' @param start_page Integer. The page number of the first PDF page that needs to be scraped.
 #'
 #' @return A list, with each element in the list containing a data frame of the scraped results.
 #'
 #' @export
-scrape_lsac_report <- function(pdf_file) {
+scrape_lsac_report <- function(pdf_file, start_page) {
 
-  applicants <- text_to_list(pdf_file)
+  applicants <- text_to_list(pdf_file, start_page)
 
   # the combined dataframe represents all oberservations in each table
 
