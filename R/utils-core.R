@@ -213,14 +213,14 @@ text_to_list <- function(pdf_file) {
   #initialize dataframe to hold lsat number and report creation date
   #this will be used to see if an applicant has a later report already extracted
   app_list <- tibble::tibble(lsat = NA,
-                             report_date = mdy("01/01/2000"))
+                             report_date = lubridate::mdy("01/01/2000"))
 
   #initialize nested list that will store lists of data frames for each applicant
   applicants <- list()
 
   for (pg in seq_len(num_pages)) {
 
-    extracted <- tabulizer::extracted_areas(pdf_file, pg)
+    extracted <- extracted_areas(pdf_file, pg)
 
     #extract lsat number and remove 'L' so it can be stored as int
     lsatNumber <- as.integer(gsub("L", "", extracted[[2]][[1]]))
@@ -253,3 +253,5 @@ text_to_list <- function(pdf_file) {
   }
   return(applicants)
 }
+
+

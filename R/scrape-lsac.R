@@ -1,5 +1,15 @@
-# combine individual dataframes ----------------------------
-list_to_tables <- function(applicants) {
+#' Scrape LSAC PDF reports and place into data frames
+#'
+#' This function scrapes all the pages from the LSAC PDF report.  Results
+#' are placed in a series of data frames, based on the topic; and all data frames
+#' are returned as a list.
+#'
+#' @param pdf_file String.  Full path to the PDF file to be scraped.
+#'
+#' @return A list, with each element in the list containing a data frame of the scraped results.
+scrape_lsac_report <- function(pdf_file) {
+
+  applicants <- text_to_list(pdf_file)
 
   # the combined dataframe represents all oberservations in each table
 
