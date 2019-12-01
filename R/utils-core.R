@@ -1,5 +1,16 @@
+#' Extract text from LSAC reports
+#'
+#' This function extracts the raw text from the LSAC reports.
+#' The extracted text is unformatted and each extracted section is
+#' returned in a list.
+#'
+#' @param file_name String.  Full path to the PDF file to be scraped.
+#' @param page_num Integer.  The page number of the PDF file to be scraped.
+#'
+#' @return The raw, untransformed and uncleaned, data from the LSAC report; returned
+#'      as data frames stored within a list.
+extracted_areas <- function(file_name, page_num) {
 
-extracted_areas <- function(fileName, pgNum) {
   #list areas to extract
   #numbers come from 'cas_Areas.R'
   #numbers represent the top, left, bottom, and right pixels in the pdf
@@ -33,11 +44,20 @@ extracted_areas <- function(fileName, pgNum) {
 
   #function is from tabulizer package and removes text in pdf from predefined areas
   #the text is placed into a nested list, with each list item being an area
-  tabulizer::extract_tables(fileName, area =  areas, pages = rep(pgNum, length(areas)), guess = FALSE)
+  tabulizer::extract_tables(file_name, area =  areas,
+                            pages = rep(page_num, length(areas)), guess = FALSE)
 }
 
-# convert extracted text to dataframes ------------------------------------------------------
-
+#' Convert object from `extracted_areas` to data frames
+#'
+#' This function takes as inputs an object created with `extracted_areas` and
+#' converts the object's data to a series of dataframes.  The data frames are
+#' output in a list.
+#'
+#' @param text_extract An object from `extracted_areas`
+#'
+#' @return A list with each element of the list representing a data frame with
+#'      information from the scraped LSAC report.
 convert_df <- function(text_extract) {
 
   # input is object from extracted_areas function
@@ -151,11 +171,15 @@ convert_df <- function(text_extract) {
 
 }
 
-# filter out rows with non-numeric values ------------------------------------------------------
+#' Filter out rows in the transcript with no values
+#'
+#' @param df Data frame to filter rows
+#' @param columns Columns to filter
 varFilter <- function(df, columns) {
 
   df %>%
     dplyr::filter_at(vars(columns),
+                     # these strings represent rows without values
                      any_vars(. != "" &
                                 . != "INSF" &
                                 . != "SEE" &
@@ -165,9 +189,18 @@ varFilter <- function(df, columns) {
                                 . != "EVAL"))
 }
 
-# extract text areas and place in individual dataframes ----------------------------
-
+#' Extract text areas and place in individual dataframes
+#'
+#' This function extracts and cleans the data and places it into
+#' data frames for individual students.  Each student's data will be placed
+#' in a separate data frame.
+#'
+#' @param pdf_file String.  Full path to the PDF file to be scraped.
+#'
+#' @return A nested list with each student as the highest hierarchy in the list, and
+#'      each student is another list with a different data frame for each table.
 text_to_list <- function(pdf_file) {
+
   ###########################################################################
   # each student will have a seperate dataframe for each individual table
   # the dataframes for each student will be placed in a single nested list
