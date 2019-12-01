@@ -7,6 +7,8 @@
 #' @param pdf_file String.  Full path to the PDF file to be scraped.
 #'
 #' @return A list, with each element in the list containing a data frame of the scraped results.
+#'
+#' @export
 scrape_lsac_report <- function(pdf_file) {
 
   applicants <- text_to_list(pdf_file)
