@@ -209,7 +209,7 @@ text_to_list <- function(pdf_file, start_page) {
   ############################################################################
 
   # return an error if start page is not an integer
-  if (!is.integer(start_page)) {
+  if (!start_page%%1==0) {
     stop("start_page msut be an integer")
   }
 
