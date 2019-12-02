@@ -116,7 +116,7 @@ convert_df <- function(text_extract) {
   grades <- tibble::as_tibble(t(text_extract[[11]])) %>%
     dplyr::filter_all(dplyr::all_vars(. != "FOREIGN"))
 
-  trans <- dplyr::bind_cols(tibble_as_tibble(t(text_extract[[10]])), grades)
+  trans <- dplyr::bind_cols(tibble::as_tibble(t(text_extract[[10]])), grades)
 
   #only create the data frame from the transcript section if there is transcript information
   #if there is only 1 row in trans there is no transcript information
