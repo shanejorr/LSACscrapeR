@@ -256,6 +256,7 @@ text_to_list <- function(pdf_file, start_page) {
         #convert areas into data frames for applicant
         #and place in list where list name is lsat number
         #this will write over any other applicant already read
+        #place in try statement, so if code fails, program continues
         applicants[[paste('L', lsatNumber, sep='')]] <- convert_df(extracted)
       }
     }
