@@ -19,5 +19,6 @@ Imports:
     lubridate,
     tidyr,
     magrittr,
-    tibble
+    tibble,
+    readr
 RoxygenNote: 7.0.1

@@ -257,7 +257,19 @@ text_to_list <- function(pdf_file, start_page) {
         #and place in list where list name is lsat number
         #this will write over any other applicant already read
         #place in try statement, so if code fails, program continues
-        applicants[[paste('L', lsatNumber, sep='')]] <- convert_df(extracted)
+        tryCatch({
+
+          # try converting extracted text to data frames
+          applicants[[paste('L', lsatNumber, sep='')]] <- convert_df(extracted)
+        },
+
+        # if this causes an error, print an error message and write to error log
+        error=function(cond) {
+          message(stringr::str_c("Page ", pg, " error"))
+          readr::write_lines(str_c("Page ", pg, " error"),
+                             'error_log.txt',
+                             sep = "\n", append = TRUE)
+        })
       }
     }
     print(stringr::str_c("Page ", pg, " complete"))
