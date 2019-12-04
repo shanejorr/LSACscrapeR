@@ -47,13 +47,6 @@ scrape_lsac_report <- function(pdf_file, start_page) {
   # clean address with function
   tables$address <- clean_address(tables$address)
 
-  ## admissions term
-
-  #term only contains year; add month and day so it can be converted to date type
-  #this allows us to calculate students' ages at the time of matriculation
-  #tables$admissions_term$admissions_term <- lubridate::mdy(paste('8/23/',tables$admissions_term$admissions_term, sep = ""))
-
-
   ## demographic table
 
   #only keep first listed ethnicity
