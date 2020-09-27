@@ -29,7 +29,7 @@ file_name <- "cas_report_2018.pdf"
 apps <- scrape_lsac_report(file_name)
 ```
 
-Now, we'll create separate csv fiules for each data frame.
+Now, we'll create separate csv files for each data frame.
 ```r
 # iterate through every data frame, outputting as csv file
 walk(names(apps),
